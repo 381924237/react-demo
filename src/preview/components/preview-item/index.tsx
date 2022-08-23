@@ -3,7 +3,7 @@ import useStore from '../../../store'
 import './index.css'
 
 interface Props {
-  isSelected: boolean
+  isSelected?: boolean
   node: ChildrenItem
   children?: React.ReactNode
   nodeProps: any

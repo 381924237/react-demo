@@ -1,16 +1,18 @@
 import produce from 'immer'
+import PreviewItem from '../preview/components/preview-item'
+import React from 'react'
+import ReactDOMServer from 'react-dom/server'
 
-export const getSchema = (
+export const attachPropsToNode = (
   tree: ChildrenItem[],
   propsObj: { [key: string]: any }
 ) => {
-  const newTree = produce(tree, (tree) => {
+  return produce(tree, (tree) => {
     operateTree(tree, {
       type: 'props',
       propsObj
     })
   })
-  return JSON.stringify(newTree, null, 2)
 }
 
 interface AddType {
@@ -72,4 +74,31 @@ const operateTree = (
   }
 }
 
-export const getCode = (tree: ChildrenItem[]) => {}
+const renderItem = (
+  tree: ChildrenItem[]
+): React.FunctionComponentElement<any>[] => {
+  return tree.map((item) =>
+    React.createElement(
+      PreviewItem,
+      {
+        key: item.key,
+        node: item,
+        nodeProps: item.props
+      },
+      renderItem(item.children)
+    )
+  )
+}
+
+export const getCode = (tree: ChildrenItem[]) => {
+  return ReactDOMServer.renderToStaticMarkup(
+    React.createElement(
+      PreviewItem,
+      {
+        node: tree[0],
+        nodeProps: tree[0].props
+      },
+      renderItem(tree[0].children)
+    )
+  )
+}

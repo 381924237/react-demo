@@ -3,7 +3,7 @@ import useStore from '../store'
 import { Button, Textarea } from '@chakra-ui/react'
 import { useState, useMemo } from 'react'
 import { Modal } from '../chakra'
-import { getSchema } from '../utils'
+import { getCode, attachPropsToNode } from '../utils'
 
 const renderItem = (
   tree: ChildrenItem[],
@@ -31,8 +31,12 @@ const Preview = () => {
     setVisible(false)
   }
 
-  const schema = useMemo(() => {
-    return getSchema(rootTree, propsObj)
+  const { schema, code } = useMemo(() => {
+    const tree = attachPropsToNode(rootTree, propsObj)
+    return {
+      schema: JSON.stringify(tree, null, 2),
+      code: getCode(tree)
+    }
   }, [rootTree, propsObj])
 
   return (
@@ -67,7 +71,7 @@ const Preview = () => {
         confirm={closeModal}
         title={modalType === 2 ? 'Code' : 'Schema'}
       >
-        <Textarea defaultValue={modalType === 2 ? '' : schema} rows={20} />
+        <Textarea defaultValue={modalType === 2 ? code : schema} rows={20} />
       </Modal>
     </>
   )

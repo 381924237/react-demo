@@ -52,6 +52,7 @@ const TreeWrap = () => {
                 <span>{item.name}</span>
                 <PlusSquareIcon
                   ml='15px'
+                  color='blue.500'
                   onClick={(e) => {
                     e.stopPropagation()
                     onAddClick(item)
@@ -60,6 +61,7 @@ const TreeWrap = () => {
                 {item.key !== '0' && (
                   <DeleteIcon
                     ml='15px'
+                    color='red.500'
                     onClick={(e) => {
                       e.stopPropagation()
                       onDeleteClick(item)
