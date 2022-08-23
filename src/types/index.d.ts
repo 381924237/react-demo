@@ -4,6 +4,7 @@ interface ChildrenItem {
   componentName: string
   children: ChildrenItem[]
   isCustom?: boolean
+  props?: ChildrenProps
 }
 
 interface ChildrenProps {}

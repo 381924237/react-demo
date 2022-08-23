@@ -1,17 +1,8 @@
 import useStore from '../store'
 import { Tree } from 'antd'
 import { PlusSquareIcon, DeleteIcon } from '@chakra-ui/icons'
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  Input
-} from '@chakra-ui/react'
+import { Input } from '@chakra-ui/react'
+import { Modal } from '../chakra'
 import { useState } from 'react'
 
 const TreeWrap = () => {
@@ -80,29 +71,20 @@ const TreeWrap = () => {
           }}
         />
       </div>
-      <Modal isOpen={visible} onClose={closeModal}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Add Children</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Input
-              value={value}
-              onChange={(e) => {
-                setValue(e.target.value)
-              }}
-              placeholder='filed: tag'
-              size='sm'
-            />
-          </ModalBody>
-
-          <ModalFooter>
-            <Button mr={3} onClick={closeModal}>
-              Close
-            </Button>
-            <Button onClick={confirm}>Confirm</Button>
-          </ModalFooter>
-        </ModalContent>
+      <Modal
+        visible={visible}
+        onClose={closeModal}
+        confirm={confirm}
+        title='Add Children'
+      >
+        <Input
+          value={value}
+          onChange={(e) => {
+            setValue(e.target.value)
+          }}
+          placeholder='filed: tag'
+          size='sm'
+        />
       </Modal>
     </>
   )
