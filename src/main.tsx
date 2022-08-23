@@ -4,7 +4,7 @@ import App from './App'
 import { ChakraProvider } from '@chakra-ui/react'
 
 import './index.css'
-import 'rsuite/dist/rsuite.min.css'
+import 'antd/dist/antd.css'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

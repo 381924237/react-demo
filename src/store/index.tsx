@@ -1,9 +1,12 @@
 import create from 'zustand'
+import produce from 'immer'
 
 interface State {
-  rootTree: ChildrenItem
+  rootNode: ChildrenItem
   selectedKey: string
-  propsMap: Map<string, any>
+  propsObj: {
+    [key: string]: any
+  }
   setSelectedKey: (key: string) => void
   setProps: (props: any) => void
   addNode: (key: string, tag: string) => void
@@ -11,7 +14,7 @@ interface State {
 }
 
 const useStore = create<State>((set, get) => ({
-  rootTree: {
+  rootNode: {
     key: '0',
     name: 'root',
     componentName: 'div',
@@ -25,29 +28,79 @@ const useStore = create<State>((set, get) => ({
     ]
   },
   selectedKey: '0',
-  propsMap: new Map([['0', {}]]),
+  propsObj: {},
   setSelectedKey: (key: string) => {
     set({
       selectedKey: key
     })
   },
   setProps: (props: any) => {
-    const { selectedKey, propsMap } = get()
-    const newMap = new Map([...propsMap])
-    newMap.set(selectedKey, {
-      ...propsMap.get(selectedKey),
-      ...props
-    })
+    const { selectedKey, propsObj } = get()
+    const newPropsObj = {
+      ...propsObj,
+      [selectedKey]: {
+        ...propsObj[selectedKey],
+        ...props
+      }
+    }
     set({
-      propsMap: newMap
+      propsObj: newPropsObj
     })
   },
   addNode: (key, tag) => {
-    console.log(key, tag)
+    const tree = [get().rootNode]
+    const nextTree = produce(tree, (tree) => {
+      changeTree(tree, { type: 'add', key, tag })
+    })
+    set({
+      rootNode: nextTree[0]
+    })
   },
   deleteNode: (key) => {
-    console.log(key)
+    const tree = [get().rootNode]
+    const nextTree = produce(tree, (tree) => {
+      changeTree(tree, { type: 'delete', key })
+    })
+    set({
+      rootNode: nextTree[0]
+    })
   }
 }))
+
+interface AddProps {
+  type: 'add'
+  key: string
+  tag: string
+}
+
+interface DeleteProps {
+  type: 'delete'
+  key: string
+}
+
+const changeTree = (tree: ChildrenItem[], options: AddProps | DeleteProps) => {
+  const { type, key } = options
+  for (let i = 0; i < tree.length; i++) {
+    if (type === 'add' && key === tree[i].key) {
+      tree[i].children = [
+        ...tree[i].children,
+        {
+          key: `${tree[i].key}-${tree[i].children.length + 1}`,
+          name: options.tag,
+          componentName: options.tag,
+          children: []
+        }
+      ]
+      break
+    }
+    if (
+      type === 'delete' &&
+      tree[i].children.findIndex((item) => item.key === key) !== -1
+    ) {
+      tree[i].children = tree[i].children.filter((item) => item.key !== key)
+    }
+    changeTree(tree[i].children, options)
+  }
+}
 
 export default useStore

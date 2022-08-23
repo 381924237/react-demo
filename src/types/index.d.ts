@@ -3,6 +3,7 @@ interface ChildrenItem {
   name: string
   componentName: string
   children: ChildrenItem[]
+  isCustom?: boolean
 }
 
 interface ChildrenProps {}

@@ -66,12 +66,7 @@
   background: #ccc;
 }
 
-.tree-wrap {
-  flex: 0 0 220px;
-  background-color: #fff;
-  padding: 10px 10px 0;
-}
-
+.tree-wrap,
 .edit-wrap {
   flex: 0 0 330px;
   background-color: #fff;
@@ -83,6 +78,11 @@
   display: flex;
   justify-content: center;
   padding: 0 64px;
+}
+
+.tree-item {
+  display: flex;
+  align-items: center;
 }
 
 .preview {

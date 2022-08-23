@@ -1,5 +1,5 @@
 import useStore from '../store'
-import { Tree } from 'rsuite'
+import { Tree } from 'antd'
 import { PlusSquareIcon, DeleteIcon } from '@chakra-ui/icons'
 import {
   Modal,
@@ -15,7 +15,7 @@ import {
 import { useState } from 'react'
 
 const TreeWrap = () => {
-  const { rootTree, setSelectedKey, selectedKey, addNode, deleteNode } =
+  const { rootNode, setSelectedKey, selectedKey, addNode, deleteNode } =
     useStore()
   const [visible, setVisible] = useState(false)
   const [currentItem, setCurrentItem] = useState<any>()
@@ -40,38 +40,43 @@ const TreeWrap = () => {
 
   const confirm = () => {
     addNode(currentItem.key, value)
+    closeModal()
   }
 
   return (
     <>
       <div className='tree-wrap'>
-        <Tree
-          labelKey='name'
-          valueKey='key'
-          data={[rootTree]}
+        <Tree<ChildrenItem>
+          blockNode
+          showLine
           defaultExpandAll
-          value={selectedKey}
-          renderTreeNode={(item) => {
+          treeData={[rootNode]}
+          selectedKeys={[selectedKey]}
+          onSelect={(selectedKeys) => {
+            onSelect(selectedKeys[0] as string)
+          }}
+          titleRender={(item) => {
             return (
               <div className='tree-item'>
                 <span>{item.name}</span>
                 <PlusSquareIcon
-                  ml='5'
-                  onClick={() => {
+                  ml='15px'
+                  onClick={(e) => {
+                    e.stopPropagation()
                     onAddClick(item)
                   }}
                 />
-                <DeleteIcon
-                  ml='5'
-                  onClick={() => {
-                    onDeleteClick(item)
-                  }}
-                />
+                {item.key !== '0' && (
+                  <DeleteIcon
+                    ml='15px'
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      onDeleteClick(item)
+                    }}
+                  />
+                )}
               </div>
             )
-          }}
-          onSelect={(item) => {
-            onSelect(item.key)
           }}
         />
       </div>
