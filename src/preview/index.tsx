@@ -1,3 +1,5 @@
+import PreviewItem from './components/preview-item'
+
 const Preview = () => {
   return (
     <div className='preview-wrap'>

@@ -2,7 +2,7 @@ import create from 'zustand'
 import produce from 'immer'
 
 interface State {
-  rootNode: ChildrenItem
+  rootTree: ChildrenItem[]
   selectedKey: string
   propsObj: {
     [key: string]: any
@@ -14,19 +14,21 @@ interface State {
 }
 
 const useStore = create<State>((set, get) => ({
-  rootNode: {
-    key: '0',
-    name: 'root',
-    componentName: 'div',
-    children: [
-      {
-        key: '0-1',
-        name: 'div',
-        componentName: 'div',
-        children: []
-      }
-    ]
-  },
+  rootTree: [
+    {
+      key: '0',
+      name: 'root',
+      componentName: 'div',
+      children: [
+        {
+          key: '0-1',
+          name: 'div',
+          componentName: 'div',
+          children: []
+        }
+      ]
+    }
+  ],
   selectedKey: '0',
   propsObj: {},
   setSelectedKey: (key: string) => {
@@ -48,21 +50,21 @@ const useStore = create<State>((set, get) => ({
     })
   },
   addNode: (key, tag) => {
-    const tree = [get().rootNode]
+    const tree = get().rootTree
     const nextTree = produce(tree, (tree) => {
       changeTree(tree, { type: 'add', key, tag })
     })
     set({
-      rootNode: nextTree[0]
+      rootTree: nextTree
     })
   },
   deleteNode: (key) => {
-    const tree = [get().rootNode]
+    const tree = get().rootTree
     const nextTree = produce(tree, (tree) => {
       changeTree(tree, { type: 'delete', key })
     })
     set({
-      rootNode: nextTree[0]
+      rootTree: nextTree
     })
   }
 }))

@@ -15,7 +15,7 @@ import {
 import { useState } from 'react'
 
 const TreeWrap = () => {
-  const { rootNode, setSelectedKey, selectedKey, addNode, deleteNode } =
+  const { rootTree, setSelectedKey, selectedKey, addNode, deleteNode } =
     useStore()
   const [visible, setVisible] = useState(false)
   const [currentItem, setCurrentItem] = useState<any>()
@@ -50,7 +50,7 @@ const TreeWrap = () => {
           blockNode
           showLine
           defaultExpandAll
-          treeData={[rootNode]}
+          treeData={rootTree}
           selectedKeys={[selectedKey]}
           onSelect={(selectedKeys) => {
             onSelect(selectedKeys[0] as string)
