@@ -71,7 +71,7 @@ const Preview = () => {
         title={modalType === 2 ? 'Code' : 'Schema'}
       >
         <Input.TextArea
-          defaultValue={modalType === 2 ? code : schema}
+          value={modalType === 2 ? code : schema}
           rows={20}
         />
       </Modal>
