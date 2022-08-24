@@ -1,8 +1,6 @@
 import useStore from '../store'
-import { Tree } from 'antd'
-import { PlusSquareIcon, DeleteIcon } from '@chakra-ui/icons'
-import { Input } from '@chakra-ui/react'
-import { Modal } from '../chakra'
+import { Tree, Modal, Input } from 'antd'
+import { PlusCircleTwoTone, DeleteTwoTone } from '@ant-design/icons'
 import { useState } from 'react'
 
 const TreeWrap = () => {
@@ -50,18 +48,16 @@ const TreeWrap = () => {
             return (
               <div className='tree-item'>
                 <span>{item.name}</span>
-                <PlusSquareIcon
-                  ml='15px'
-                  color='blue.500'
+                <PlusCircleTwoTone
+                  style={{ marginLeft: 15 }}
                   onClick={(e) => {
                     e.stopPropagation()
                     onAddClick(item)
                   }}
                 />
                 {item.key !== '0' && (
-                  <DeleteIcon
-                    ml='15px'
-                    color='red.500'
+                  <DeleteTwoTone
+                    style={{ marginLeft: 15 }}
                     onClick={(e) => {
                       e.stopPropagation()
                       onDeleteClick(item)
@@ -75,8 +71,8 @@ const TreeWrap = () => {
       </div>
       <Modal
         visible={visible}
-        onClose={closeModal}
-        confirm={confirm}
+        onCancel={closeModal}
+        onOk={confirm}
         title='Add Children'
       >
         <Input
@@ -85,7 +81,6 @@ const TreeWrap = () => {
             setValue(e.target.value)
           }}
           placeholder='filed: tag'
-          size='sm'
         />
       </Modal>
     </>

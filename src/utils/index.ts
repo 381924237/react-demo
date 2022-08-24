@@ -102,3 +102,24 @@ export const getCode = (tree: ChildrenItem[]) => {
     )
   )
 }
+
+export const updateObj = (options: {
+  obj?: { [key: string]: any }
+  namePath: string | string[]
+  value: any
+}) => {
+  const { obj = {}, namePath, value } = options
+  const pathList = typeof namePath === 'string' ? [namePath] : namePath
+  return produce(obj, (obj) => {
+    let i = 0
+    let currentObj = obj
+    while (i < pathList.length - 1) {
+      if (!currentObj[pathList[i]]) {
+        currentObj[pathList[i]] = {}
+      }
+      currentObj = currentObj[pathList[i]]
+      i++
+    }
+    currentObj[pathList[i]] = value
+  })
+}

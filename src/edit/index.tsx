@@ -1,53 +1,26 @@
-import { Input, InputGroup, InputLeftAddon } from '@chakra-ui/react'
+import FormItem from '../form/form-item'
 import useStore from '../store'
 
 const Edit = () => {
-  const { setProps, propsObj, selectedKey } = useStore()
-
-  const handleChange = (name: string, value: any) => {
-    setProps({
-      [name]: value
-    })
-  }
-
+  const { propsObj } = useStore()
   return (
     <div className='edit-wrap'>
-      <InputGroup size='sm' mb='10px'>
-        <InputLeftAddon children='width' />
-        <Input
-          value={propsObj[selectedKey]?.width || ''}
-          onChange={(e) => {
-            handleChange('width', e.target.value)
-          }}
-        />
-      </InputGroup>
-      <InputGroup size='sm' mb='10px'>
-        <InputLeftAddon children='height' />
-        <Input
-          value={propsObj[selectedKey]?.height || ''}
-          onChange={(e) => {
-            handleChange('height', e.target.value)
-          }}
-        />
-      </InputGroup>
-      <InputGroup size='sm' mb='10px'>
-        <InputLeftAddon children='background' />
-        <Input
-          value={propsObj[selectedKey]?.background || ''}
-          onChange={(e) => {
-            handleChange('background', e.target.value)
-          }}
-        />
-      </InputGroup>
-      <InputGroup size='sm' mb='10px'>
-        <InputLeftAddon children='text' />
-        <Input
-          value={propsObj[selectedKey]?.text || ''}
-          onChange={(e) => {
-            handleChange('text', e.target.value)
-          }}
-        />
-      </InputGroup>
+      <FormItem name='width' field={{ type: 'Input' }} />
+      <FormItem name='height' field={{ type: 'Input' }} />
+      <FormItem name='background' field={{ type: 'Input' }} />
+      <FormItem name='text' field={{ type: 'Input' }} />
+      <FormItem
+        name='test'
+        field={{
+          type: 'Select',
+          options: [
+            { label: '1', value: 1 },
+            { label: '2', value: 2 },
+            { label: '3', value: 3 }
+          ]
+        }}
+      />
+      <div>{JSON.stringify(propsObj, null, 2)}</div>
     </div>
   )
 }

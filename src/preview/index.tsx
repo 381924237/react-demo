@@ -1,9 +1,8 @@
 import PreviewItem from './components/preview-item'
 import useStore from '../store'
-import { Button, Textarea } from '@chakra-ui/react'
 import { useState, useMemo } from 'react'
-import { Modal } from '../chakra'
 import { getCode, attachPropsToNode } from '../utils'
+import { Button, Input, Modal } from 'antd'
 
 const renderItem = (
   tree: ChildrenItem[],
@@ -52,7 +51,7 @@ const Preview = () => {
             Schema
           </Button>
           <Button
-            ml='3'
+            style={{ marginLeft: 5 }}
             onClick={() => {
               setVisible(true)
               setModalType(2)
@@ -67,11 +66,14 @@ const Preview = () => {
       </div>
       <Modal
         visible={visible}
-        onClose={closeModal}
-        confirm={closeModal}
+        onCancel={closeModal}
+        footer={null}
         title={modalType === 2 ? 'Code' : 'Schema'}
       >
-        <Textarea defaultValue={modalType === 2 ? code : schema} rows={20} />
+        <Input.TextArea
+          defaultValue={modalType === 2 ? code : schema}
+          rows={20}
+        />
       </Modal>
     </>
   )

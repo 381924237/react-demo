@@ -1,5 +1,5 @@
 import create from 'zustand'
-import { getNewTree } from '../utils'
+import { getNewTree, updateObj } from '../utils'
 
 interface State {
   rootTree: ChildrenItem[]
@@ -8,7 +8,7 @@ interface State {
     [key: string]: any
   }
   setSelectedKey: (key: string) => void
-  setProps: (props: any) => void
+  setProps: (namePath: string | string[], value: any) => void
   addNode: (key: string, tag: string) => void
   deleteNode: (key: string) => void
 }
@@ -36,17 +36,18 @@ const useStore = create<State>((set, get) => ({
       selectedKey: key
     })
   },
-  setProps: (props: any) => {
+  setProps: (namePath: string | string[], value: any) => {
     const { selectedKey, propsObj } = get()
-    const newPropsObj = {
-      ...propsObj,
-      [selectedKey]: {
-        ...propsObj[selectedKey],
-        ...props
-      }
-    }
+    const newObj = updateObj({
+      obj: propsObj[selectedKey] || {},
+      namePath,
+      value
+    })
     set({
-      propsObj: newPropsObj
+      propsObj: {
+        ...propsObj,
+        [selectedKey]: newObj
+      }
     })
   },
   addNode: (key, tag) => {
