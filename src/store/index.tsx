@@ -19,14 +19,7 @@ const useStore = create<State>((set, get) => ({
       key: '0',
       name: 'root',
       componentName: 'div',
-      children: [
-        {
-          key: '0-1',
-          name: 'div',
-          componentName: 'div',
-          children: []
-        }
-      ]
+      children: []
     }
   ],
   selectedKey: '0',

@@ -12,18 +12,14 @@ interface Props {
 const PreviewItem = ({ node, isSelected, children, nodeProps }: Props) => {
   const { setSelectedKey } = useStore()
   const { componentName, key } = node
-  const { height, width, background, text } = nodeProps || {}
+  const { text, style = {} } = nodeProps || {}
 
   return React.createElement(
     componentName,
     {
       id: key,
       className: `${isSelected ? 'selected' : ''}`,
-      style: {
-        height: height ? height + 'px' : height,
-        width: width ? width + 'px' : width,
-        background
-      },
+      style,
       onClick: (e: any) => {
         e.stopPropagation()
         setSelectedKey(key)

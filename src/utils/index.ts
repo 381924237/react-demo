@@ -123,3 +123,21 @@ export const updateObj = (options: {
     currentObj[pathList[i]] = value
   })
 }
+
+export const getValue = (options: {
+  obj?: { [key: string]: any }
+  namePath: string | string[]
+}) => {
+  const { obj = {}, namePath } = options
+  const pathList = typeof namePath === 'string' ? [namePath] : namePath
+  let i = 0
+  let currentObj = obj
+  while (i < pathList.length - 1) {
+    if (!currentObj[pathList[i]]) {
+      return undefined
+    }
+    currentObj = currentObj[pathList[i]]
+    i++
+  }
+  return currentObj[pathList[i]]
+}
