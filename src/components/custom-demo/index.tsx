@@ -13,6 +13,7 @@ const CustomDemo = (props: any) => {
       }}
     >
       自定义组件
+      {props.children}
     </div>
   )
 }

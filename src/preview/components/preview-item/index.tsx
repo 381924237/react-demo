@@ -42,7 +42,7 @@ const PreviewItem = ({ node, isSelected, children, nodeProps = {} }: Props) => {
       className={`custom-preview-item ${isSelected ? 'selected' : ''}`}
       onClick={onClick}
     >
-      <CustomComponent {...nodeProps} />
+      <CustomComponent {...nodeProps} children={children} />
     </div>
   ) : null
 }
