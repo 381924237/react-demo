@@ -1,3 +1,4 @@
 .selected {
-  border: 2px dashed blue;
+  outline: 2px dashed blue;
+  outline-offset: -2px;
 }

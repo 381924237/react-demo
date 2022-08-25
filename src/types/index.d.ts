@@ -1,6 +1,6 @@
 interface ChildrenItem {
   key: string
-  name: string
+  nodeName: string
   componentName: string
   children: ChildrenItem[]
   isCustom?: boolean

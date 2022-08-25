@@ -1,14 +1,14 @@
 import useStore from '../store'
-import { Tree, Modal, Input } from 'antd'
+import { Tree } from 'antd'
 import { PlusCircleTwoTone, DeleteTwoTone } from '@ant-design/icons'
 import { useState } from 'react'
+import AddModal from './components/add-modal'
 
 const TreeWrap = () => {
   const { rootTree, setSelectedKey, selectedKey, addNode, deleteNode } =
     useStore()
   const [visible, setVisible] = useState(false)
   const [currentItem, setCurrentItem] = useState<any>()
-  const [value, setValue] = useState('')
 
   const onSelect = (key: string) => {
     setSelectedKey(key)
@@ -27,8 +27,17 @@ const TreeWrap = () => {
     setVisible(false)
   }
 
-  const confirm = () => {
-    addNode(currentItem.key, value)
+  const confirm = (
+    nodeName: string,
+    componentName: string,
+    isCustom?: boolean
+  ) => {
+    addNode({
+      key: currentItem.key,
+      nodeName,
+      componentName,
+      isCustom
+    })
     closeModal()
   }
 
@@ -47,7 +56,7 @@ const TreeWrap = () => {
           titleRender={(item) => {
             return (
               <div className='tree-item'>
-                <span>{item.name}</span>
+                <span>{item.nodeName}</span>
                 <PlusCircleTwoTone
                   style={{ marginLeft: 15 }}
                   onClick={(e) => {
@@ -69,20 +78,7 @@ const TreeWrap = () => {
           }}
         />
       </div>
-      <Modal
-        visible={visible}
-        onCancel={closeModal}
-        onOk={confirm}
-        title='Add Children'
-      >
-        <Input
-          value={value}
-          onChange={(e) => {
-            setValue(e.target.value)
-          }}
-          placeholder='filed: tag'
-        />
-      </Modal>
+      <AddModal visible={visible} closeModal={closeModal} confirm={confirm} />
     </>
   )
 }

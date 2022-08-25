@@ -18,7 +18,9 @@ export const attachPropsToNode = (
 interface AddType {
   type: 'add'
   key: string
-  tag: string
+  nodeName: string
+  componentName: string
+  isCustom?: boolean
 }
 
 interface DeleteType {
@@ -51,9 +53,10 @@ const operateTree = (
         ...tree[i].children,
         {
           key: `${tree[i].key}-${tree[i].children.length + 1}`,
-          name: options.tag,
-          componentName: options.tag,
-          children: []
+          nodeName: options.nodeName,
+          componentName: options.componentName,
+          children: [],
+          isCustom: options.isCustom
         }
       ]
       break

@@ -9,7 +9,12 @@ interface State {
   }
   setSelectedKey: (key: string) => void
   setProps: (namePath: string | string[], value: any) => void
-  addNode: (key: string, tag: string) => void
+  addNode: (options: {
+    key: string
+    nodeName: string
+    componentName: string
+    isCustom?: boolean
+  }) => void
   deleteNode: (key: string) => void
 }
 
@@ -17,7 +22,7 @@ const useStore = create<State>((set, get) => ({
   rootTree: [
     {
       key: '0',
-      name: 'root',
+      nodeName: 'root',
       componentName: 'div',
       children: []
     }
@@ -43,9 +48,15 @@ const useStore = create<State>((set, get) => ({
       }
     })
   },
-  addNode: (key, tag) => {
+  addNode: ({ key, nodeName, componentName, isCustom }) => {
     const tree = get().rootTree
-    const newTree = getNewTree(tree, { type: 'add', key, tag })
+    const newTree = getNewTree(tree, {
+      type: 'add',
+      key,
+      componentName,
+      nodeName,
+      isCustom
+    })
     set({
       rootTree: newTree
     })
